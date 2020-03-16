@@ -6,22 +6,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.6, 3.7, 3.8]
-
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install package
-      run: |
-        python setup.py install
-        
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
+    - name: Build docker image
+      run: docker build . -t pym4metalearning
+    - name: Test image
+      run: docker run pym4metalearning pytest -s
