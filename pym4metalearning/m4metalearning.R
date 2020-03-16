@@ -4,7 +4,7 @@ library(tsfeatures)
 library(logger)
 set.seed(31-05-2018)
 log_threshold(DEBUG)
-logger <- layout_glue_generator(format = '{node}|{pid}|{namespace} {time} {level}: {msg}')
+logger <- layout_glue_generator(format = '{time}|{level} | {node}:{pid} - {msg}')
 log_layout(logger)
 
 
