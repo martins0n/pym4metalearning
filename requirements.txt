@@ -6,3 +6,4 @@ numpy
 rpy2
 scipy
 pytest
+loguru

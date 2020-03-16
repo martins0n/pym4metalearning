@@ -16,19 +16,21 @@ RUN apt-get update \
 
 RUN apt-get update && apt-get install -y libcurl4 libcurl4-openssl-dev libssl-dev libxml2-dev 
 
-COPY . /app
+RUN Rscript -e 'install.packages("devtools", dependencies=TRUE)' \
+    && Rscript -e 'install.packages("forecast", dependencies=TRUE)' \
+    && Rscript -e 'install.packages("logger", dependencies=TRUE)'
+
+RUN mkdir app
 
 WORKDIR app
 
-RUN Rscript -e 'install.packages("devtools", dependencies=TRUE)'
-RUN Rscript -e 'install.packages("forecast", dependencies=TRUE)'
+COPY ./Rrequierements/installPackages.R ./Rrequierements/installPackages.R
+COPY ./requirements.txt ./requirements.txt
+RUN Rscript  ./Rrequierements/installPackages.R  \
+    && python3.6 -m pip install --upgrade pip setuptools && python3.6 -m pip install -r requirements.txt
 
-COPY ./Rrequierements ./Rrequierements
-RUN Rscript  ./Rrequierements/installPackages.R 
+COPY ./ ./
 
-RUN python3.6 -m pip install --upgrade pip setuptools && python3.6 -m pip install -r requirements.txt
-
-COPY . /app
 
 CMD ["bash"]
 
