@@ -1,4 +1,4 @@
-FROM python3.6-r3.6-devtools:latest
+FROM docker.pkg.github.com/martins0n/python3.6-r3.6-devtools/python3.6-r3.6-devtools:latest
 
 RUN Rscript -e 'install.packages("forecast", dependencies=TRUE)' \
     && Rscript -e 'install.packages("logger", dependencies=TRUE)'
